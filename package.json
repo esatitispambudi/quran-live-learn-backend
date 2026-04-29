@@ -1,0 +1,32 @@
+{
+  "name": "quran-live-learn",
+  "description": "AI Live Belajar Baca Alquran - Platform pembelajaran Alquran dengan AI streaming real-time",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev:backend": "cd backend && npm start",
+    "dev:frontend": "cd frontend && npm start",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build:backend": "cd backend && npm install",
+    "build:frontend": "cd frontend && npm run build",
+    "setup": "npm install && npm run build:backend && npm run build:frontend"
+  },
+  "keywords": [
+    "alquran",
+    "quran",
+    "ai",
+    "learning",
+    "gemini",
+    "streaming",
+    "tajweed"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,690 @@
+/* IqroLearning.css - Mobile First Responsive */
+
+.iqro-learning {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 12px;
+}
+
+/* Tabs */
+.iqro-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 8px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tab-btn {
+  flex-shrink: 0;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  touch-action: manipulation;
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.tab-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.iqro-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Levels Grid */
+.iqro-levels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.iqro-levels h2 {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.info-text {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.levels-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.level-card {
+  padding: 14px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  touch-action: manipulation;
+}
+
+.level-card:active {
+  transform: scale(0.98);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+}
+
+.level-number {
+  font-size: 12px;
+  color: #667eea;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.level-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 6px;
+}
+
+.level-desc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.level-meta {
+  display: flex;
+  gap: 10px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 8px;
+}
+
+.btn-start {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Learning Path */
+.iqro-path {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.iqro-path h2 {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.path-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.path-phase {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+.phase-header {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.phase-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 50%;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.phase-info h3 {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 4px 0;
+}
+
+.phase-duration {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.phase-goals,
+.phase-levels {
+  margin-top: 10px;
+}
+
+.phase-goals h4,
+.phase-levels h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 6px 0;
+}
+
+.phase-goals ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.phase-goals li {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.levels-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.level-link {
+  padding: 6px 10px;
+  border: 1px solid rgba(102, 126, 234, 0.4);
+  border-radius: 4px;
+  background: rgba(102, 126, 234, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.level-link:active {
+  background: rgba(102, 126, 234, 0.2);
+  border-color: #667eea;
+}
+
+.total-time {
+  padding: 10px;
+  background: rgba(76, 175, 80, 0.1);
+  border-left: 3px solid #4CAF50;
+  border-radius: 4px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 10px;
+}
+
+/* Lesson Display */
+.iqro-lesson {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lesson-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lesson-header h2 {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+.lesson-header p {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.lesson-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lesson-main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lesson-card {
+  padding: 14px;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(34, 139, 34, 0.05) 100%);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  border-radius: 8px;
+}
+
+.arabic-display {
+  text-align: center;
+  padding: 20px 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.arabic-text-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.arabic-text {
+  font-size: 48px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.2;
+}
+
+.btn-play-large {
+  padding: 10px 14px;
+  border: 2px solid rgba(102, 126, 234, 0.5);
+  border-radius: 50%;
+  background: rgba(102, 126, 234, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  touch-action: manipulation;
+  min-width: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-play-large:hover {
+  background: rgba(102, 126, 234, 0.4);
+  border-color: #667eea;
+  transform: scale(1.05);
+}
+
+.btn-play-large:active {
+  transform: scale(0.95);
+}
+
+.btn-play-large:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.lesson-name {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.lesson-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-item {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.info-item .label {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  min-width: 80px;
+}
+
+.info-item .value {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tips-box,
+.practice-box,
+.pronunciation-box {
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.tips-box h4,
+.practice-box h4,
+.pronunciation-box h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 6px 0;
+}
+
+.tips-box p,
+.practice-box p {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+.pronunciation-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pronunciation-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.pronunciation-item .label {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.pronunciation-item .value {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+  font-style: italic;
+  font-family: 'Arial', sans-serif;
+}
+
+.pronunciation-item .btn-audio {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(102, 126, 234, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pronunciation-item .btn-audio:active {
+  background: rgba(102, 126, 234, 0.5);
+}
+
+.pronunciation-item .btn-audio.playing {
+  background: rgba(76, 175, 80, 0.5);
+  color: rgba(255, 255, 255, 0.9);
+  animation: pulse 1s infinite;
+}
+
+.pronunciation-item .btn-audio:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.btn-record {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Lesson Navigation */
+.lesson-nav {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-btn {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.nav-btn:active:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.progress-text {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  min-width: 40px;
+  text-align: center;
+}
+
+/* Lessons Sidebar */
+.lessons-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.lessons-sidebar h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+.lessons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lesson-item {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  font-size: 12px;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.lesson-item.active {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+  border: 1px solid rgba(102, 126, 234, 0.4);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.lesson-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.lesson-item.active .lesson-num {
+  background: rgba(102, 126, 234, 0.4);
+}
+
+.lesson-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Tablet */
+@media (min-width: 640px) {
+  .iqro-learning {
+    gap: 20px;
+    padding: 16px;
+  }
+
+  .tab-btn {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  .levels-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .level-card {
+    padding: 16px;
+  }
+
+  .lesson-container {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 16px;
+  }
+
+  .lessons-sidebar {
+    max-height: 600px;
+  }
+
+  .arabic-text {
+    font-size: 56px;
+  }
+
+  .btn-play-large {
+    padding: 12px 16px;
+    font-size: 24px;
+    min-width: 52px;
+    min-height: 52px;
+  }
+
+  .lesson-nav {
+    margin-top: 10px;
+  }
+
+  .tab-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .level-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-start:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  }
+
+  .nav-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(102, 126, 234, 0.5);
+  }
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .iqro-learning {
+    gap: 24px;
+    padding: 20px;
+  }
+
+  .levels-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .iqro-levels h2 {
+    font-size: 22px;
+  }
+
+  .iqro-path h2 {
+    font-size: 22px;
+  }
+
+  .lesson-header h2 {
+    font-size: 22px;
+  }
+
+  .lesson-container {
+    grid-template-columns: 1fr 280px;
+  }
+
+  .arabic-text {
+    font-size: 64px;
+  }
+
+  .btn-play-large {
+    padding: 14px 18px;
+    font-size: 28px;
+    min-width: 56px;
+    min-height: 56px;
+  }
+}
