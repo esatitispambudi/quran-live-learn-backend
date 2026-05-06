@@ -1,7 +1,7 @@
 {
   "name": "quran-live-learn-frontend",
   "version": "0.1.0",
-  "private": true,
+  "private": "true",
   "type": "module",
   "dependencies": {
     "ajv": "^8",

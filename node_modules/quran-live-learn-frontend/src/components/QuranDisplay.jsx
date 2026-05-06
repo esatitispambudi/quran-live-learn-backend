@@ -13,7 +13,7 @@ export default function QuranDisplay({ currentSurah, setCurrentSurah }) {
   const [translations, setTranslations] = useState([]);
   const [audioUrls, setAudioUrls] = useState({});
   const [availableTranslations, setAvailableTranslations] = useState([]);
-  const [selectedTranslation, setSelectedTranslation] = useState('id.indonesian');
+  const selectedTranslation = 'id.indonesian'; // 🇮🇩 Locked to Indonesian only
   const lastLoadRef = useRef(null);
   
   // Learn & Practice states
@@ -26,65 +26,35 @@ export default function QuranDisplay({ currentSurah, setCurrentSurah }) {
   const [audioChunks, setAudioChunks] = useState([]);
   const [analysisResult, setAnalysisResult] = useState(null);
   const [practiceLoading, setPracticeLoading] = useState(false);
-  const [useGeminiTranslation, setUseGeminiTranslation] = useState(false);
-  const [translationMethod, setTranslationMethod] = useState('api'); // 'auto', 'gemini', 'api' - default 'api'
+  const [useGeminiTranslation, setUseGeminiTranslation] = useState(true); // Always use Gemini for Indonesian
+  const [translationMethod, setTranslationMethod] = useState('gemini'); // Force Gemini for better Indonesian
 
-  // Define loadSurah BEFORE useEffect
-  const loadSurah = async (surahNumber, translationLang) => {
-    const key = `${surahNumber}-${translationLang}`;
+  // Define loadSurah BEFORE useEffect - ALWAYS Indonesian with Gemini
+  const loadSurah = async (surahNumber) => {
+    const key = `${surahNumber}-id`;
     if (lastLoadRef.current === key && loading) {
       return; // Skip if already loading same surah
     }
     
     lastLoadRef.current = key;
     setLoading(true);
-    console.log(`📖 Loading surah ${surahNumber}...`);
+    console.log(`📖 Loading surah ${surahNumber} - 🇮🇩 Indonesian (Gemini AI)...`);
     
     try {
-      // Determine which method to use
-      let useGemini = false;
-      
-      if (translationMethod === 'gemini') {
-        useGemini = true;
-      } else if (translationMethod === 'api') {
-        // API mode: always use external API
-        useGemini = false;
-      } else if (translationMethod === 'auto') {
-        // Auto mode: try API first with short timeout, then fallback to Gemini
-        useGemini = false;
-      }
-      
       const controller = new AbortController();
-      let timeoutId;
+      const timeoutId = setTimeout(() => controller.abort(), 12000);
       
-      if (translationMethod === 'auto') {
-        // Shorter timeout in auto mode to quickly fallback to Gemini
-        timeoutId = setTimeout(() => controller.abort(), 6000);
-      } else {
-        // Standard timeout for explicit method choice
-        timeoutId = setTimeout(() => controller.abort(), 12000);
-      }
-      
-      const url = `${config.api.baseUrl}/quran/surah/${surahNumber}?translationCode=${translationLang}&useGemini=${useGemini}`;
-      console.log(`   Using translation method: ${useGemini ? 'Gemini AI 🤖' : 'External API 🌐'}`);
+      const url = `${config.api.baseUrl}/quran/surah/${surahNumber}?translationCode=id.indonesian&useGemini=true`;
       
       let response;
-      let usedGemini = useGemini;
-      
       try {
         response = await fetch(url, { signal: controller.signal });
       } catch (error) {
-        // If auto mode and timeout/error, try Gemini
-        if (translationMethod === 'auto' && !useGemini) {
-          console.warn('⚠️ API timeout/error, trying Gemini AI...');
-          clearTimeout(timeoutId);
-          timeoutId = setTimeout(() => controller.abort(), 12000);
-          usedGemini = true;
-          const geminiUrl = `${config.api.baseUrl}/quran/surah/${surahNumber}?translationCode=${translationLang}&useGemini=true`;
-          response = await fetch(geminiUrl, { signal: new AbortController().signal });
-        } else {
-          throw error;
+        clearTimeout(timeoutId);
+        if (error.name === 'AbortError') {
+          throw new Error('Timeout - API terlalu lambat');
         }
+        throw error;
       }
       
       clearTimeout(timeoutId);
@@ -93,8 +63,8 @@ export default function QuranDisplay({ currentSurah, setCurrentSurah }) {
       const data = await response.json();
       if (!data.success) throw new Error(data.error || 'Failed');
       
-      console.log(`✅ Loaded surah ${surahNumber}${usedGemini ? ' (Gemini 🤖)' : ''}`);
-      setUseGeminiTranslation(usedGemini);
+      console.log(`✅ Surah ${surahNumber} loaded - Indonesian 🇮🇩`);
+      setUseGeminiTranslation(true); // Always true for Indonesian
       setCurrentAyahs(data.arabic || []);
       setTranslations(data.translation || []);
       
@@ -118,8 +88,8 @@ export default function QuranDisplay({ currentSurah, setCurrentSurah }) {
         
     } catch (error) {
       console.error('❌ Error:', error.message);
-      if (error.name === 'AbortError') {
-        alert('Timeout! API lambat. Coba ubah bahasa terjemahan.');
+      if (error.message.includes('Timeout')) {
+        alert('⏱️ Timeout - API response lambat. Silakan coba lagi.');
       }
     } finally {
       setLoading(false);
@@ -131,21 +101,20 @@ export default function QuranDisplay({ currentSurah, setCurrentSurah }) {
     loadAvailableTranslations();
   }, []);
 
-  // useEffect with eslint-disable to avoid dependency warnings
+  // useEffect to load on mount and when surah changes - Indonesian only
   useEffect(() => {
-    loadSurah(currentSurah, selectedTranslation);
+    loadSurah(currentSurah);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentSurah, selectedTranslation, translationMethod]);
+  }, [currentSurah]);
 
   const loadAvailableTranslations = async () => {
     try {
       console.log('📚 Fetching available translations...');
-      const response = await fetch(`${config.api.baseUrl}/quran/translations`);
-      const data = await response.json();
-      if (data.success) {
-        console.log(`✅ Loaded ${data.translations.length} translations`);
-        setAvailableTranslations(data.translations);
-      }
+      // Only show Indonesian - locked to this language
+      setAvailableTranslations([
+        { code: 'id.indonesian', name: '🇮🇩 Bahasa Indonesia', lang: 'id' }
+      ]);
+      console.log('✅ Indonesian language locked');
     } catch (error) {
       console.error('❌ Error loading translations:', error);
     }
@@ -308,50 +277,12 @@ ${(result.saran || []).map((s, i) => `${i + 1}. ${s}`).join('\n')}
     <div className="quran-display">
       <div className="translation-controls">
         <div className="translation-selector">
-          <label htmlFor="translation-select">🌐 Pilih Terjemahan:</label>
-          <select 
-            id="translation-select"
-            value={selectedTranslation}
-            onChange={(e) => setSelectedTranslation(e.target.value)}
-            className="translation-select"
-          >
-            {availableTranslations.map(trans => (
-              <option key={trans.code} value={trans.code}>
-                {trans.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        
-        <div className="translation-method">
-          <label>⚡ Metode Terjemahan:</label>
-          <div className="method-buttons">
-            <button 
-              className={`method-btn ${translationMethod === 'auto' ? 'active' : ''}`}
-              onClick={() => setTranslationMethod('auto')}
-              title="Auto: Coba API dahulu, fallback ke Gemini jika lambat"
-            >
-              Auto 🔄
-            </button>
-            <button 
-              className={`method-btn ${translationMethod === 'gemini' ? 'active' : ''}`}
-              onClick={() => setTranslationMethod('gemini')}
-              title="Gunakan Gemini AI untuk terjemahan cepat"
-            >
-              Gemini 🤖
-            </button>
-            <button 
-              className={`method-btn ${translationMethod === 'api' ? 'active' : ''}`}
-              onClick={() => setTranslationMethod('api')}
-              title="Gunakan API eksternal"
-            >
-              API 🌐
-            </button>
-          </div>
+          <label>🇮🇩 Terjemahan: Bahasa Indonesia (Terkunci)</label>
+          <p className="language-locked-info">✅ UI dan terjemahan dalam Bahasa Indonesia saja</p>
         </div>
         
         {useGeminiTranslation && (
-          <div className="gemini-badge">✨ Menggunakan Gemini AI</div>
+          <div className="gemini-badge">✨ Menggunakan Gemini AI untuk terjemahan terbaik</div>
         )}
       </div>
 
