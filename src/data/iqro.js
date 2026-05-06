@@ -69,10 +69,10 @@ export const iqroLevels = [
     title: 'Iqro Juz 1',
     description: 'Membaca kata-kata sederhana dan kalimat pendek',
     lessons: [
-      { id: 41, arabic: 'الْحَمْدُ', translation: 'al-hamdu (pujian)', tips: 'Perhatikan alif lam dan tanwin', pronunciationExamples: { slow: 'Al-ham-du', normal: 'Alhamdu', comparison: 'Puji - pujian' } },
-      { id: 42, arabic: 'لِلَّهِ', translation: 'lillah (untuk Allah)', tips: 'Syaddah pada lam', pronunciationExamples: { slow: 'Lil-lah', normal: 'Lillah', comparison: 'Untuk - untuk Allah' } },
-      { id: 43, arabic: 'رَبِّ', translation: 'rabbi (Tuhanku)', tips: 'Syaddah pada ba', pronunciationExamples: { slow: 'Rab-bi', normal: 'Rabbi', comparison: 'Tuhan - Tuhanku' } },
-      { id: 44, arabic: 'الْعَالَمِينَ', translation: 'al-alamin (dunia)', tips: 'Panjang dan ada huruf sakit', pronunciationExamples: { slow: 'Al-aa-la-mi-na', normal: 'Alalamin', comparison: 'Alam - semua alam/dunia' } }
+      { id: 41, arabic: 'الْحَمْدُ', translation: 'Pujian', tips: 'Perhatikan alif lam dan tanwin', pronunciationExamples: { slow: 'Al-ham-du', normal: 'Alhamdu', comparison: 'Puji - pujian' } },
+      { id: 42, arabic: 'لِلَّهِ', translation: 'Untuk Allah', tips: 'Syaddah pada lam', pronunciationExamples: { slow: 'Lil-lah', normal: 'Lillah', comparison: 'Untuk - untuk Allah' } },
+      { id: 43, arabic: 'رَبِّ', translation: 'Tuhanku', tips: 'Syaddah pada ba', pronunciationExamples: { slow: 'Rab-bi', normal: 'Rabbi', comparison: 'Tuhan - Tuhanku' } },
+      { id: 44, arabic: 'الْعَالَمِينَ', translation: 'Dunia', tips: 'Panjang dan ada huruf sakit', pronunciationExamples: { slow: 'Al-aa-la-mi-na', normal: 'Alalamin', comparison: 'Alam - semua alam/dunia' } }
     ],
     estimated_days: 10
   },
@@ -81,8 +81,8 @@ export const iqroLevels = [
     title: 'Iqro Juz 2',
     description: 'Melanjutkan dengan kata-kata lebih panjang',
     lessons: [
-      { id: 45, arabic: 'الرَّحْمَٰنِ', translation: 'ar-rahman (Yang Maha Pengasih)', tips: 'Perhatikan alif lam', pronunciationExamples: { slow: 'Ar-rah-ma-ni', normal: 'Arrahman', comparison: 'Pengasih - Yang Maha Pengasih' } },
-      { id: 46, arabic: 'الرَّحِيمِ', translation: 'ar-rahim (Yang Maha Penyayang)', tips: 'Syaddah dan ya', pronunciationExamples: { slow: 'Ar-rah-i-mi', normal: 'Arrahim', comparison: 'Penyayang - Yang Maha Penyayang' } }
+      { id: 45, arabic: 'الرَّحْمَٰنِ', translation: 'Yang Maha Pengasih', tips: 'Perhatikan alif lam', pronunciationExamples: { slow: 'Ar-rah-ma-ni', normal: 'Arrahman', comparison: 'Pengasih - Yang Maha Pengasih' } },
+      { id: 46, arabic: 'الرَّحِيمِ', translation: 'Yang Maha Penyayang', tips: 'Syaddah dan ya', pronunciationExamples: { slow: 'Ar-rah-i-mi', normal: 'Arrahim', comparison: 'Penyayang - Yang Maha Penyayang' } }
     ],
     estimated_days: 7
   },
@@ -91,9 +91,9 @@ export const iqroLevels = [
     title: 'Iqro Juz 3-6',
     description: 'Melanjutkan pembacaan Iqro dengan tingkat kesulitan meningkat',
     lessons: [
-      { id: 47, arabic: 'مَالِكِ', translation: 'malik (raja)', tips: 'Level 3 Iqro', pronunciationExamples: { slow: 'Ma-li-ki', normal: 'Malik', comparison: 'Pemilik - raja' } },
-      { id: 48, arabic: 'يَوْمِ', translation: 'yawm (hari)', tips: 'Perhatikan sukun', pronunciationExamples: { slow: 'Yaw-mi', normal: 'Yawmi', comparison: 'Hari - hari' } },
-      { id: 49, arabic: 'الدِّينِ', translation: 'ad-din (agama)', tips: 'Syaddah pada dal', pronunciationExamples: { slow: 'Ad-di-ni', normal: 'Addini', comparison: 'Agama - agama' } }
+      { id: 47, arabic: 'مَالِكِ', translation: 'Raja', tips: 'Level 3 Iqro', pronunciationExamples: { slow: 'Ma-li-ki', normal: 'Malik', comparison: 'Pemilik - raja' } },
+      { id: 48, arabic: 'يَوْمِ', translation: 'Hari', tips: 'Perhatikan sukun', pronunciationExamples: { slow: 'Yaw-mi', normal: 'Yawmi', comparison: 'Hari - hari' } },
+      { id: 49, arabic: 'الدِّينِ', translation: 'Agama', tips: 'Syaddah pada dal', pronunciationExamples: { slow: 'Ad-di-ni', normal: 'Addini', comparison: 'Agama - agama' } }
     ],
     estimated_days: 21
   },
@@ -102,8 +102,8 @@ export const iqroLevels = [
     title: 'Iqro Juz 7-10',
     description: 'Meningkatkan kecepatan dan kelancaran membaca',
     lessons: [
-      { id: 50, arabic: 'إِيَّاكَ', translation: 'iyyak (hanya Engkau)', tips: 'Level 7 Iqro', pronunciationExamples: { slow: 'I-ya-ka', normal: 'Iyyak', comparison: 'Hanya Anda/Engkau' } },
-      { id: 51, arabic: 'نَعْبُدُ', translation: 'nabudu (kami menyembah)', tips: 'Perhatian pada tanwin', pronunciationExamples: { slow: 'Na-a-bu-du', normal: 'Naabud', comparison: 'Kami menyembah' } }
+      { id: 50, arabic: 'إِيَّاكَ', translation: 'Hanya Engkau', tips: 'Level 7 Iqro', pronunciationExamples: { slow: 'I-ya-ka', normal: 'Iyyak', comparison: 'Hanya Anda/Engkau' } },
+      { id: 51, arabic: 'نَعْبُدُ', translation: 'Kami Menyembah', tips: 'Perhatian pada tanwin', pronunciationExamples: { slow: 'Na-a-bu-du', normal: 'Naabud', comparison: 'Kami menyembah' } }
     ],
     estimated_days: 21
   },
@@ -112,8 +112,8 @@ export const iqroLevels = [
     title: 'Iqro Juz 11-15',
     description: 'Membaca dengan ritme dan tajweed yang baik',
     lessons: [
-      { id: 52, arabic: 'وَإِيَّاكَ', translation: 'wa iyyak (dan hanya Engkau)', tips: 'Level 11 Iqro', pronunciationExamples: { slow: 'Wa-i-ya-ka', normal: 'Wa-iyyak', comparison: 'Dan hanya Anda' } },
-      { id: 53, arabic: 'نَسْتَعِينُ', translation: 'nastaiin (kami minta pertolongan)', tips: 'Perhatian pada ta', pronunciationExamples: { slow: 'Nas-ta-i-nu', normal: 'Nasta\'in', comparison: 'Kami minta bantuan' } }
+      { id: 52, arabic: 'وَإِيَّاكَ', translation: 'Dan Hanya Engkau', tips: 'Level 11 Iqro', pronunciationExamples: { slow: 'Wa-i-ya-ka', normal: 'Wa-iyyak', comparison: 'Dan hanya Anda' } },
+      { id: 53, arabic: 'نَسْتَعِينُ', translation: 'Kami Minta Pertolongan', tips: 'Perhatian pada ta', pronunciationExamples: { slow: 'Nas-ta-i-nu', normal: 'Nasta\'in', comparison: 'Kami minta bantuan' } }
     ],
     estimated_days: 21
   },
@@ -122,8 +122,8 @@ export const iqroLevels = [
     title: 'Iqro Juz 16-20',
     description: 'Melatih pembacaan dengan lancar dan benar',
     lessons: [
-      { id: 54, arabic: 'اهْدِنَا', translation: 'ihdina (tunjukkan kami)', tips: 'Level 16 Iqro', pronunciationExamples: { slow: 'Ih-di-na', normal: 'Ihdina', comparison: 'Tunjukkan kami' } },
-      { id: 55, arabic: 'الصِّرَاطَ', translation: 'ash-shirath (jalan)', tips: 'Perhatian pada shad', pronunciationExamples: { slow: 'Ash-shi-ra-tha', normal: 'Asshirath', comparison: 'Jalan yang benar' } }
+      { id: 54, arabic: 'اهْدِنَا', translation: 'Tunjukkan Kami', tips: 'Level 16 Iqro', pronunciationExamples: { slow: 'Ih-di-na', normal: 'Ihdina', comparison: 'Tunjukkan kami' } },
+      { id: 55, arabic: 'الصِّرَاطَ', translation: 'Jalan', tips: 'Perhatian pada shad', pronunciationExamples: { slow: 'Ash-shi-ra-tha', normal: 'Asshirath', comparison: 'Jalan yang benar' } }
     ],
     estimated_days: 21
   },
@@ -132,8 +132,8 @@ export const iqroLevels = [
     title: 'Iqro Juz 21-30 & Tamatnya',
     description: 'Menyelesaikan Iqro dan siap membaca Quran dengan baik',
     lessons: [
-      { id: 56, arabic: 'الْمُسْتَقِيمَ', translation: 'al-mustaqim (yang lurus)', tips: 'Tamat Iqro!', pronunciationExamples: { slow: 'Al-mus-ta-qi-ma', normal: 'Almustaqim', comparison: 'Jalan yang lurus' } },
-      { id: 57, arabic: 'صِرَاطَ الَّذِينَ', translation: 'shirath alladhin (jalan mereka)', tips: 'Persiapan baca Quran', pronunciationExamples: { slow: 'Shi-ra-tha al-la-dhi-na', normal: 'Shirath alladhin', comparison: 'Jalan mereka yang' } }
+      { id: 56, arabic: 'الْمُسْتَقِيمَ', translation: 'Yang Lurus', tips: 'Tamat Iqro!', pronunciationExamples: { slow: 'Al-mus-ta-qi-ma', normal: 'Almustaqim', comparison: 'Jalan yang lurus' } },
+      { id: 57, arabic: 'صِرَاطَ الَّذِينَ', translation: 'Jalan Mereka', tips: 'Persiapan baca Quran', pronunciationExamples: { slow: 'Shi-ra-tha al-la-dhi-na', normal: 'Shirath alladhin', comparison: 'Jalan mereka yang' } }
     ],
     estimated_days: 21
   }

@@ -32,5 +32,14 @@
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.0"
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "ws": "^8.14.2",
+    "axios": "^1.6.0",
+    "@google/generative-ai": "^0.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+>>>>>>> 83c304b1e6490af22acfba18daa984914c5e8005
   }
 }
