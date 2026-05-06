@@ -9,6 +9,14 @@ import { handleWebSocket } from './services/wsService.js';
 
 dotenv.config();
 
+// Debug: Verify API key is loaded
+console.log('🔑 GEMINI_API_KEY loaded:', !!process.env.GEMINI_API_KEY);
+console.log('📝 API Key first 10 chars:', process.env.GEMINI_API_KEY?.substring(0, 10) || 'NOT FOUND');
+if (!process.env.GEMINI_API_KEY) {
+  console.warn('⚠️  WARNING: GEMINI_API_KEY not found in environment!');
+  console.warn('   Please check your .env file and ensure it contains GEMINI_API_KEY');
+}
+
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server, path: '/ws' });

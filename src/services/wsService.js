@@ -1,7 +1,55 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null;
 const connections = new Map();
+
+// Lazy initialization - gets API key when actually needed, not at import time
+function getGenAI() {
+  if (!process.env.GEMINI_API_KEY) {
+    return null;
+  }
+  return new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+}
+
+function getModelName() {
+  return process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+}
+
+// Fallback models to try in order if primary fails
+const FALLBACK_MODELS = ['gemini-1.5-pro', 'gemini-pro'];
+
+async function tryGenerateContentStream(genAI, models, prompt) {
+  let lastError;
+  
+  for (const modelName of models) {
+    try {
+      console.log(`🤖 Mencoba streaming model: ${modelName}`);
+      const model = genAI.getGenerativeModel({ model: modelName });
+      const stream = await model.generateContentStream(prompt);
+      return { stream, modelUsed: modelName };
+    } catch (error) {
+      lastError = error;
+      console.warn(`⚠️ Streaming model ${modelName} gagal:`, error.message);
+    }
+  }
+  throw lastError;
+}
+
+async function tryGenerateContent(genAI, models, prompt) {
+  let lastError;
+  
+  for (const modelName of models) {
+    try {
+      console.log(`🤖 Mencoba model: ${modelName}`);
+      const model = genAI.getGenerativeModel({ model: modelName });
+      const result = await model.generateContent(prompt);
+      return { text: result.response.text(), modelUsed: modelName };
+    } catch (error) {
+      lastError = error;
+      console.warn(`⚠️ Model ${modelName} gagal:`, error.message);
+    }
+  }
+  throw lastError;
+}
 
 export function handleWebSocket(ws, req) {
   const clientId = `client-${Date.now()}-${Math.random()}`;
@@ -41,18 +89,27 @@ export function handleWebSocket(ws, req) {
 
 async function handleChatStream(ws, message) {
   try {
+    const genAI = getGenAI();
     if (!genAI) {
-      throw new Error('API key tidak tersedia');
+      console.error('❌ GEMINI_API_KEY tidak ditemukan di environment');
+      ws.send(JSON.stringify({ 
+        type: 'error',
+        message: 'API Key Gemini tidak dikonfigurasi. Silakan hubungi administrator.',
+        severity: 'critical'
+      }));
+      return;
     }
     
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const modelName = getModelName();
+    const models = [modelName, ...FALLBACK_MODELS.filter(m => m !== modelName)];
+    
     const { userMessage, context } = message;
     
     const systemPrompt = `Anda adalah guru Alquran yang ramah dan berpengalaman. 
     Konteks pembelajaran: ${context || 'Umum'}
     Jawab pertanyaan tentang Alquran dengan jelas, akurat, dan mudah dipahami.`;
     
-    const stream = await model.generateContentStream({
+    const result = await tryGenerateContentStream(genAI, models, {
       contents: [
         {
           parts: [
@@ -63,9 +120,11 @@ async function handleChatStream(ws, message) {
       ]
     });
     
+    console.log('✅ AI Model initialized successfully with model:', result.modelUsed);
+    
     ws.send(JSON.stringify({ type: 'chat:start' }));
     
-    for await (const chunk of stream.stream) {
+    for await (const chunk of result.stream.stream) {
       const text = chunk.text();
       if (text) {
         ws.send(JSON.stringify({
@@ -77,25 +136,32 @@ async function handleChatStream(ws, message) {
     
     ws.send(JSON.stringify({ type: 'chat:end' }));
   } catch (error) {
-    console.error('Chat Stream Error:', error.message);
-    // Fallback: Send mock response
-    console.log('⚠️ Menggunakan mock chat response...');
-    ws.send(JSON.stringify({ type: 'chat:start' }));
-    ws.send(JSON.stringify({
-      type: 'chat:chunk',
-      data: 'Maaf, saat ini AI tidak tersedia. Harap verifikasi API key Gemini. Namun, saya masih bisa membantu Anda dengan informasi dasar tentang Quran. '
+    console.error('❌ Chat Stream Error:', error.message);
+    console.error('Stack:', error.stack);
+    ws.send(JSON.stringify({ 
+      type: 'error',
+      message: `Gagal terhubung ke AI: ${error.message}`,
+      severity: 'error',
+      details: error.message
     }));
-    ws.send(JSON.stringify({ type: 'chat:end' }));
   }
 }
 
 async function handleAnalysis(ws, message) {
   try {
+    const genAI = getGenAI();
     if (!genAI) {
-      throw new Error('API key tidak tersedia');
+      console.error('❌ GEMINI_API_KEY tidak ditemukan di environment');
+      ws.send(JSON.stringify({ 
+        type: 'error',
+        message: 'API Key Gemini tidak dikonfigurasi. Silakan hubungi administrator.',
+        severity: 'critical'
+      }));
+      return;
     }
     
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const modelName = getModelName();
+    const models = [modelName, ...FALLBACK_MODELS.filter(m => m !== modelName)];
     const { textCorrect, userText, audioTranscription } = message;
     
     const prompt = `
@@ -114,12 +180,13 @@ async function handleAnalysis(ws, message) {
       Format JSON dengan keys: accuracy, errors, corrections, motivation
     `;
     
-    const stream = await model.generateContentStream(prompt);
+    const result = await tryGenerateContentStream(genAI, models, prompt);
     
+    console.log('✅ Analysis streaming dengan model:', result.modelUsed);
     ws.send(JSON.stringify({ type: 'analysis:start' }));
     
     let fullResponse = '';
-    for await (const chunk of stream.stream) {
+    for await (const chunk of result.stream.stream) {
       const text = chunk.text();
       if (text) {
         fullResponse += text;
@@ -147,33 +214,33 @@ async function handleAnalysis(ws, message) {
       }));
     }
   } catch (error) {
-    console.error('Analysis Error:', error.message);
-    // Fallback: Send mock analysis
-    console.log('⚠️ Menggunakan mock analysis...');
-    ws.send(JSON.stringify({ type: 'analysis:start' }));
-    ws.send(JSON.stringify({
-      type: 'analysis:chunk',
-      data: 'Analisis bacaan Anda...'
-    }));
-    ws.send(JSON.stringify({
-      type: 'analysis:end',
-      data: {
-        accuracy: 85,
-        errors: 'Pelafalan kurang jelas di beberapa tempat',
-        corrections: 'Ulangi dengan memperhatikan tajweed',
-        motivation: 'Bagus! Terus latihan dan Anda akan semakin mahir! 🎉'
-      }
+    console.error('❌ Analysis Error:', error.message);
+    console.error('Stack:', error.stack);
+    ws.send(JSON.stringify({ 
+      type: 'error',
+      message: `Gagal menganalisis: ${error.message}`,
+      severity: 'error',
+      details: error.message
     }));
   }
 }
 
 async function handleLearning(ws, message) {
   try {
+    const genAI = getGenAI();
     if (!genAI) {
-      throw new Error('API key tidak tersedia');
+      console.error('❌ GEMINI_API_KEY tidak ditemukan di environment');
+      ws.send(JSON.stringify({ 
+        type: 'error',
+        message: 'API Key Gemini tidak dikonfigurasi. Silakan hubungi administrator.',
+        severity: 'critical'
+      }));
+      return;
     }
     
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const modelName = getModelName();
+    const models = [modelName, ...FALLBACK_MODELS.filter(m => m !== modelName)];
+    
     const { surahName, ayahNumber, topic } = message;
     
     const prompt = `
@@ -193,11 +260,12 @@ async function handleLearning(ws, message) {
       Gunakan bahasa Indonesia yang mudah dipahami dan menarik.
     `;
     
-    const stream = await model.generateContentStream(prompt);
+    const result = await tryGenerateContentStream(genAI, models, prompt);
     
+    console.log('✅ Learning material dengan model:', result.modelUsed);
     ws.send(JSON.stringify({ type: 'learning:start' }));
     
-    for await (const chunk of stream.stream) {
+    for await (const chunk of result.stream.stream) {
       const text = chunk.text();
       if (text) {
         ws.send(JSON.stringify({
@@ -209,31 +277,14 @@ async function handleLearning(ws, message) {
     
     ws.send(JSON.stringify({ type: 'learning:end' }));
   } catch (error) {
-    console.error('Learning Error:', error.message);
-    // Fallback: Send mock learning content
-    console.log('⚠️ Menggunakan mock learning content...');
-    ws.send(JSON.stringify({ type: 'learning:start' }));
-    ws.send(JSON.stringify({
-      type: 'learning:chunk',
-      data: `📖 Materi Pembelajaran: Surah ${message.surahName}, Ayat ${message.ayahNumber}\n\n`
+    console.error('❌ Learning Error:', error.message);
+    console.error('Stack:', error.stack);
+    ws.send(JSON.stringify({ 
+      type: 'error',
+      message: `Gagal memuat materi pembelajaran: ${error.message}`,
+      severity: 'error',
+      details: error.message
     }));
-    ws.send(JSON.stringify({
-      type: 'learning:chunk',
-      data: `**Penjelasan Makna:**\nAyat ini berbicara tentang pentingnya ilmu dan ketakwaan kepada Allah. Setiap kata memiliki makna yang mendalam.\n\n`
-    }));
-    ws.send(JSON.stringify({
-      type: 'learning:chunk',
-      data: `**Asbabun Nuzul:**\nAyat ini diturunkan untuk memberikan tuntunan kepada umat Islam tentang pentingnya belajar.\n\n`
-    }));
-    ws.send(JSON.stringify({
-      type: 'learning:chunk',
-      data: `**Aplikasi Dalam Hidup:**\n1. Rajin belajar Quran\n2. Menerapkan ajaran Islam\n3. Menjadi hamba yang berpengetahuan\n\n`
-    }));
-    ws.send(JSON.stringify({
-      type: 'learning:chunk',
-      data: `**Quiz:** Apa arti dari kata "ilm" dalam Quran?`
-    }));
-    ws.send(JSON.stringify({ type: 'learning:end' }));
   }
 }
 
